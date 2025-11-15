@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Fitness Dashboard</title>
+</head>
+<body>
+{% extends 'dashboard/base.html' %}
+{% block title %}Dashboard | Fitness Analyzer{% endblock %}
+
+{% block content %}
+    <h2  class="mb-4 text-center">Welcome, {{ request.user.username }}!</h2>
+<hr>
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="card p-3 mb-4">
+            <h5>Add Fitness Data</h5>
+            <form method="POST">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary w-100 mt-2">Add Record</button>
+            </form>
+        </div>
+
+        <div class="card p-3">
+            <h5>Average Stats</h5>
+            <p><b>Average Steps:</b> {{ avg_steps }}</p>
+            <p><b>Average Calories Burned:</b> {{ avg_calories }}</p>
+        </div>
+        <hr>
+        <form action="{% url 'reset_data' %}" method="post" onsubmit="return confirm('Are you sure you want to delete all your data? This cannot be undone.');">
+            {% csrf_token %}
+            <button type="submit" style="background-color: red; color: white; padding: 8px 12px; border: none; border-radius: 6px; cursor: pointer;">
+                Reset All Data
+            </button>
+        </form>
+    </div>
+
+    <div class="col-md-8">
+        {% if next_week_bmi and next_week_steps %}
+            <div class="alert alert-info text-center shadow-sm">
+                <h5>📅 Next Week’s Fitness Forecast</h5>
+                <p>Predicted BMI: <strong>{{ next_week_bmi }}</strong></p>
+                <p>Predicted Steps: <strong>{{ next_week_steps }}</strong></p>
+                <hr>
+                <p class="mb-0">{{ motivation }}</p>
+            </div>
+            {% else %}
+            <div class="alert alert-secondary text-center shadow-sm">
+                <p>{{ motivation }}</p>
+            </div>
+        {% endif %}
+
+        <div class="card p-3 mb-4">
+            <h5>BMI Trend</h5>
+            {% if plot_data %}
+                <img id="bmiChart" src="data:image/png;base64,{{ bmi_chart_light }}" class="img-fluid rounded" alt="BMI Chart">
+            {% else %}
+                <p>No data to display graph.</p>
+            {% endif %}
+        </div>
+
+        <div class="card p-3 mb-4">
+            <h5>Weight Trend</h5>
+            {% if weight_chart %}
+                <img id="weightChart" src="data:image/png;base64,{{ weight_chart_light }}" class="img-fluid rounded" alt="Weight Chart">
+            {% else %}
+                <p>No weight data to display.</p>
+            {% endif %}
+        </div>
+
+
+        <div class="card p-3">
+            <h5>Fitness Data Records</h5>
+            <div class="table-responsive">
+                <table class="table table-bordered text-center align-middle">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Weight (kg)</th>
+                            <th>Height (m)</th>
+                            <th>BMI</th>
+                            <th>Steps</th>
+                            <th>Calories</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for record in user_data %}
+                        <tr>
+                            <td>{{ record.date }}</td>
+                            <td>{{ record.weight }}</td>
+                            <td>{{ record.height }}</td>
+                            <td>{{ record.bmi }}</td>
+                            <td>{{ record.steps }}</td>
+                            <td>{{ record.calories_burned }}</td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="6">No records yet.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+    <footer>
+        <p>&copy; 2025 Fitness Analyzer</p>
+    </footer>
+</body>
+</html>
