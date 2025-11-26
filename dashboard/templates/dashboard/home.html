@@ -76,7 +76,7 @@
             </div>
         </div>
 
-        <div class="card mb-4">
+        <div class="card mb-4 p-4 border shadow-sm">
             <h5>BMI Trend</h5>
             {% if plot_data %}
             <img id="bmiChart" src="data:image/png;base64,{{ bmi_chart_light }}" class="img-fluid rounded"
@@ -86,7 +86,7 @@
             {% endif %}
         </div>
 
-        <div class="card mb-4">
+        <div class="card mb-4 p-4 border shadow-sm">
             <h5>Weight Trend</h5>
             {% if weight_chart %}
             <img id="weightChart" src="data:image/png;base64,{{ weight_chart_light }}" class="img-fluid rounded"

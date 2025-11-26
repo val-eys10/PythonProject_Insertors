@@ -196,9 +196,8 @@ img.sameWidth {
 }
 
 .card {
-  border-radius: 15px;
+  border-radius: 12px;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-  background-color: #fff;
 }
 
 /* Card specific */
@@ -648,4 +647,13 @@ input[type="number"] {
   display: flex;
   flex-direction: column;
   row-gap: 1rem;
+}
+
+body.dark-mode .card.border {
+  border: 1px solid var(--defaultBorderColor) !important;
+  box-shadow: none;
+}
+
+.shadow {
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }

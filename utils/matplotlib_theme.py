@@ -57,7 +57,7 @@ def apply_shadcn_dark_theme():
     
     # Colors for dark mode
     primary_color = '#6e14b4'
-    background_color = '#1e1e1e'
+    background_color = '#2d2d2f'
     text_color = '#e0d9ff'
     border_color = '#555555'
     
