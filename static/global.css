@@ -1,0 +1,651 @@
+/* ============================
+   1. Variables
+   ============================ */
+@font-face {
+  font-family: "manrope";
+  src: url("fonts/Manrope[wght].woff2") format("woff2");
+}
+
+:root {
+  /* Colors */
+  --defaultFontColor: #464646;
+  --defaultBgColor: #ffffff;
+  --defaultPrimaryColor: #0078d4;
+  --defaultCardBgColor: oklch(0.97 0 0);
+  --defaultBorderColor: #D9D9D9;
+
+  /* Navbar */
+  --navbarMargin: 4rem;
+  --lightmode-navbar-bg: #ffffff;
+  --darkmode-navbar-bg: #393939;
+
+  /* Table header (light mode defaults) */
+  --table-header-bg: var(--defaultPrimaryColor);
+  --table-header-color: #ffffff;
+
+  /* Table row hover (shadcn-like subtle row highlight) */
+  --table-row-hover-bg: rgba(0, 120, 212, 0.06);
+  /* light, subtle blue */
+  --table-row-hover-bg-active: rgba(0, 120, 212, 0.12);
+
+  /* Outer border and radius for tables - matches navbar border */
+  --table-outer-border: 1px solid var(--defaultBorderColor);
+  --table-border-radius: 12px;
+}
+
+/* ============================
+   2. Base / Reset
+   ============================ */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background-color: var(--defaultBgColor);
+}
+
+body {
+  margin: 0;
+  position: relative;
+  background-color: var(--defaultBgColor);
+  font-family: 'manrope', sans-serif;
+  box-sizing: border-box;
+  color: var(--defaultFontColor);
+}
+
+/* Images */
+img {
+  max-width: 100%;
+  width: auto;
+  height: auto;
+  overflow: hidden;
+  display: block;
+}
+
+/* ============================
+   3. Layout utilities
+   ============================ */
+.min-dvh-100 {
+  min-height: calc(100dvh - var(--navbarMargin));
+}
+
+.h-full {
+  height: 100%;
+}
+
+.sameWidth {
+  flex: 0 0 50%;
+  max-width: 50%;
+}
+
+.flex .sameWidth {
+  flex: 1;
+  width: 50%;
+  max-width: 50%;
+}
+
+/* image covers area */
+img.sameWidth {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hideLoginImg {
+  display: block;
+}
+
+/* Responsive stack */
+@media (max-width: 767.98px) {
+  .sameWidth {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+
+  .hideLoginImg {
+    display: none;
+  }
+
+  .columnSpan {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .loginForm {
+    max-width: 100% !important;
+  }
+}
+
+/* ============================
+   4. Navbar
+   ============================ */
+.navbar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 100%;
+  margin: 0 auto;
+  z-index: 10;
+  border-bottom: 1px solid var(--defaultBorderColor);
+  background-color: var(--lightmode-navbar-bg);
+}
+
+.navbar .container {
+  margin: auto;
+  box-sizing: border-box;
+  min-height: 4rem;
+  max-height: 4rem;
+  padding: 0.5rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--defaultFontColor);
+}
+
+/* Links / Logo */
+.navbar-logo {
+  font-weight: 700;
+  font-size: 1.25rem;
+  text-decoration: none;
+  color: var(--defaultFontColor);
+  letter-spacing: -0.085rem;
+}
+
+.navlinks {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.navlinks * {
+  color: var(--defaultFontColor);
+}
+
+.nav-link {
+  box-sizing: border-box;
+  font-weight: 700;
+  padding: 0 1rem;
+}
+
+.nav-link:hover {
+  text-shadow: 0 0 1px currentColor;
+}
+
+/* ============================
+   5. Content, Card & Typography
+   ============================ */
+
+.row {
+  width: 100%;
+}
+
+.content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  box-sizing: border-box;
+  margin-top: var(--navbarMargin);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.content:first-child {
+  margin-top: 4rem;
+}
+
+.card {
+  border-radius: 15px;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  background-color: #fff;
+}
+
+/* Card specific */
+.card h3,
+.card p,
+.card .form-label {
+  /* typographic defaults inside cards */
+}
+
+/* Utility rounded border */
+.border-rounded {
+  border-radius: 12px;
+}
+
+/* ============================
+   6. Buttons
+   ============================ */
+.btn-primary {
+  background-color: var(--defaultPrimaryColor);
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  background-color: #005ea6;
+}
+
+.statusTitle {
+  font-weight: 700;
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+  text-align: left;
+}
+
+/* ============================
+   7. Tables
+   ============================ */
+/* Header styling */
+.table th,
+table.table th,
+table thead th {
+  background-color: var(--table-header-bg);
+  color: var(--table-header-color);
+  border: none !important;
+}
+
+/* Remove Bootstrap's default table border */
+.table {
+  border-top: none !important;
+  border-bottom: none !important;
+}
+
+.table>:not(:first-child) {
+  border-top: none !important;
+}
+
+/* Remove all borders from table */
+.table,
+.table.table-bordered {
+  border: none !important;
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+  margin-bottom: 0;
+}
+
+.table th,
+.table td {
+  border: none !important;
+}
+
+/* Header corners */
+.table thead th:first-child {
+  border-top-left-radius: var(--table-border-radius);
+}
+
+.table thead th:last-child {
+  border-top-right-radius: var(--table-border-radius);
+}
+
+/* Table container with outer border */
+.table-responsive {
+  border: 1px solid var(--defaultBorderColor);
+  border-radius: var(--table-border-radius);
+  overflow: hidden;
+  padding: 0;
+}
+
+/* Row hover */
+.table tbody tr {
+  transition: background-color 0.12s ease;
+  cursor: pointer;
+}
+
+.table tbody tr:hover,
+.table tbody tr:focus-within,
+.table tbody tr:active {
+  background-color: var(--table-row-hover-bg);
+}
+
+.table tbody tr td,
+.table tbody tr th {
+  background-color: transparent !important;
+}
+
+/* ============================
+   8. Forms / Login
+   ============================ */
+.loginForm {
+  max-width: max(12rem, 80%);
+  margin: auto;
+  margin-top: 4rem;
+}
+
+.loginPageImg {
+  width: auto;
+  height: 100%;
+}
+
+/* Form controls (dark mode overrides later) */
+.form-control {
+  /* ...existing code... */
+}
+
+/* ============================
+   9. Toggle Switch & Icons
+   ============================ */
+/* Icon sizes & visibility helpers */
+.toggleIcon,
+.toggleIconHover,
+.toggleIconDark,
+.toggleIconDarkHover {
+  width: 20px;
+  height: 20px;
+  vertical-align: middle;
+  cursor: pointer;
+  transition: filter 0.3s ease;
+}
+
+/* Light mode: show toggleIcon by default, hide others */
+.toggleIcon {
+  display: inline-block;
+}
+
+.toggleIconHover,
+.toggleIconDark,
+.toggleIconDarkHover {
+  display: none;
+}
+
+.toggleIconHover:hover {
+  filter: brightness(70%);
+}
+
+/* Switch wrapper */
+.switch {
+  cursor: pointer;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  width: 24px;
+  height: 24px;
+  margin: 0 20px;
+}
+
+.switch input {
+  display: none;
+}
+
+/* visual slider when input checked (assumes .slider exists in markup) */
+input:checked+.slider {
+  background-color: #6e14b4;
+}
+
+input:checked+.slider:before {
+  transform: translateX(25px);
+}
+
+/* Hover behaviors for light mode */
+.switch:hover .toggleIcon {
+  display: none;
+}
+
+.switch:hover .toggleIconHover {
+  display: inline-block;
+}
+
+/* Dark mode: show toggleIconDark by default */
+body.dark-mode .toggleIcon,
+body.dark-mode .toggleIconHover {
+  display: none !important;
+}
+
+body.dark-mode .toggleIconDark {
+  display: inline-block;
+}
+
+body.dark-mode .toggleIconDarkHover {
+  display: none;
+}
+
+body.dark-mode .switch:hover .toggleIconDark {
+  display: none;
+}
+
+body.dark-mode .switch:hover .toggleIconDarkHover {
+  display: inline-block;
+}
+
+body.dark-mode .toggleIconDarkHover:hover {
+  filter: brightness(70%);
+}
+
+/* ============================
+   10. Transitions
+   ============================ */
+body,
+.card,
+.navbar,
+.navbar .container,
+.table,
+.btn {
+  transition: all 0.3s ease;
+}
+
+h1 {
+  font-weight: 900;
+  font-size: 1.5rem;
+}
+
+.sidebar-icon {
+  width: 24px;
+  height: 24px;
+  fill: currentColor;
+  /* Uses text color, changes with dark mode */
+  vertical-align: middle;
+  display: inline;
+}
+
+body.dark-mode .sidebar-icon {
+  fill: #e0d9ff;
+}
+
+/* ============================
+   11. Dark mode (grouped)
+   ============================ */
+body.dark-mode {
+  --defaultFontColor: #f5f5f5;
+  --defaultBgColor: #1e1e1e;
+  --defaultPrimaryColor: #6e14b4;
+  --defaultCardBgColor: oklch(0.269 0 0);
+  --defaultBorderColor: #424242;
+
+  /* table header colors for dark mode */
+  --table-header-bg: #4b0082;
+  --table-header-color: #e0d9ff;
+
+  /* Table row hover (shadcn-like subtle row highlight) */
+  --table-row-hover-bg: rgba(110, 20, 180, 0.08);
+  /* dark-mode subtle violet */
+  --table-row-hover-bg-active: rgba(110, 20, 180, 0.14);
+
+  background-color: var(--defaultBgColor);
+  color: var(--defaultFontColor);
+}
+
+/* Navbar in dark mode */
+body.dark-mode .navbar .container {
+  color: #e0d9ff;
+}
+
+body.dark-mode .navbar {
+  background-color: var(--defaultBgColor);
+}
+
+/* Cards / content in dark mode */
+body.dark-mode .card {
+  background-color: #2d2d30;
+  color: #e0d9ff;
+}
+
+body.dark-mode .card h3,
+body.dark-mode .card .form-label {
+  color: #e0d9ff !important;
+}
+
+body.dark-mode .card p,
+body.dark-mode .card .form-label {
+  color: white !important;
+}
+
+/* Tables in dark mode */
+body.dark-mode table {
+  background-color: #1e1e1e;
+  border-color: #555;
+}
+
+body.dark-mode .table th {
+  background-color: #4b0082;
+  color: #e0d9ff;
+}
+
+body.dark-mode .table td {
+  background-color: #1e1e1e;
+  color: #e0d9ff;
+}
+
+/* Buttons in dark mode */
+body.dark-mode .btn-primary {
+  background-color: #6e14b4;
+  border: none;
+}
+
+body.dark-mode .btn-primary:hover {
+  background-color: #5a00a0;
+}
+
+/* Toggle icon visibility for dark mode */
+body.dark-mode .toggleIcon,
+body.dark-mode .toggleIconHover,
+body.dark-mode .toggleIconDarkHover,
+body.dark-mode .switch:hover .toggleIconHover {
+  display: none;
+}
+
+body.dark-mode .toggleIconDark {
+  display: inline;
+}
+
+body.dark-mode .switch:hover .toggleIconDark {
+  display: none;
+}
+
+body.dark-mode .switch:hover .toggleIconDarkHover {
+  display: inline;
+}
+
+/* Form controls in dark mode */
+body.dark-mode .form-control {
+  background-color: #2d2d30;
+  color: #e0d9ff;
+  border: 1px solid #555555;
+}
+
+body.dark-mode .form-control:focus {
+  background-color: #2d2d30;
+  color: #e0d9ff;
+  border-color: violet;
+  box-shadow: 0 0 0 0.2rem rgba(138, 43, 226, 0.25);
+}
+
+/* Inputs, selects, textarea placeholders */
+body.dark-mode input,
+body.dark-mode select,
+body.dark-mode textarea {
+  background-color: #1e1e1e;
+  color: #e0d9ff;
+  border: 1px solid #555;
+}
+
+body.dark-mode input::placeholder,
+body.dark-mode textarea::placeholder {
+  color: #aaa;
+}
+
+/* Alerts in dark mode */
+body.dark-mode .alert {
+  background-color: #4b0082;
+  color: #e0d9ff;
+  border: none;
+}
+
+/* Links in dark mode */
+body.dark-mode a,
+body.dark-mode .nav-link,
+body.dark-mode .toggleIcon {
+  color: var(--lightmode-navbar-bg);
+}
+
+/* ============================
+   12. Misc / Legacy rules
+   ============================ */
+/* keep any small legacy overrides here */
+
+.sidebar {
+  border-right: 1px solid var(--defaultBorderColor);
+}
+
+.sidebarBtn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
+  color: var(--defaultFontColor);
+  width: 100%;
+  padding: 0.5rem 0.25rem;
+  border-radius: 6px;
+  text-decoration: none;
+}
+
+.sidebarBtn:hover {
+  background-color: var(--defaultPrimaryColor);
+  color: var(--defaultBgColor);
+}
+
+.sidebarBtn span {
+  margin: 0;
+}
+
+/* Remove spinner arrows from number inputs */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+
+.flex-card-item {
+  flex: 1;
+  background-color: var(--defaultCardBgColor);
+  padding: 1rem;
+  border-radius: 12px;
+  border: 1px solid var(--defaultBorderColor);
+}
+
+.flex-card-item p {
+  margin: 0 auto;
+}
+
+.flex-card {
+  display: flex;
+  flex-direction: row;
+  /* align-items: center; */
+  gap: 1rem;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+}

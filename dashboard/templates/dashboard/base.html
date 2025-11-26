@@ -1,225 +1,105 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Fitness Analyzer{% endblock %}</title>
 
     <!-- Bootstrap CSS (you can load it locally if needed) -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <style>
-        body {
-            background-color: #f7f9fc;
-            font-family: 'Segoe UI', sans-serif;
-        }
-        .navbar {
-            background-color: #0078d4;
-        }
-        .navbar-brand, .nav-link {
-            color: white !important;
-            margin: 0px 20px;
-        }
-        .container {
-            margin-top: 40px;
-        }
-        .card {
-            border-radius: 15px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-        .btn-primary {
-            background-color: #0078d4;
-            border: none;
-        }
-        .btn-primary:hover {
-            background-color: #005ea6;
-        }
-        table th {
-            background-color: #0078d4;
-            color: white;
-        }
-
-        /* Toggle Switch */
-        .switch {
-          position: relative;
-          display: inline-block;
-          color: white;
-          width: 50px;
-          height: 25px;
-          margin: 0px 20px;
-        }
-        .switch input {display:none;}
-        .slider {
-          position: absolute;
-          cursor: pointer;
-          top: 0; left: 0; right: 0; bottom: 0;
-          background-color: #ccc;
-          transition: 0.4s;
-          border-radius: 25px;
-        }
-        .slider:before {
-          position: absolute;
-          content: "";
-          height: 19px; width: 19px;
-          left: 3px;
-          bottom: 3px;
-          background-color: white;
-          transition: 0.4s;
-          border-radius: 50%;
-        }
-        input:checked + .slider {
-          background-color: #6e14b4;
-        }
-        input:checked + .slider:before {
-          transform: translateX(25px);
-        }
-
-        /* Dark mode body class */
-        body.dark-mode {
-          background-color: #1e1e1e;
-          color: #e0d9ff;
-        }
-        body.dark-mode .card h3,
-        body.dark-mode .card .form-label {
-          color: #e0d9ff !important;
-        }
-        body.dark-mode .card p,
-        body.dark-mode .card .form-label {
-          color: white !important;
-        }
-        body.dark-mode .navbar {
-          background-color: #4b0082 !important;
-        }
-        body.dark-mode .card {
-          background-color: #2d2d30;
-          color: #e0d9ff;
-        }
-        body.dark-mode table {
-          background-color: #1e1e1e;
-          border-color: #555;
-        }
-        body.dark-mode .table th {
-          background-color: #4b0082;
-          color: #e0d9ff;
-        }
-        body.dark-mode .table td {
-          background-color: #1e1e1e;
-          color: #e0d9ff;
-        }
-        body.dark-mode .btn-primary {
-          background-color: #6e14b4;
-          border: none;
-        }
-        body.dark-mode .btn-primary:hover {
-          background-color: #5a00a0;
-        }
-        body.dark-mode a {
-          color: #dda0dd; /* light violet links */
-        }
-        body, .card, .navbar, .table, .btn {
-          transition: all 0.3s ease;
-        }
-
-        /* Login/Register Cards & Form Inputs */
-        body.dark-mode .form-control {
-            background-color: #2d2d30;
-            color: #e0d9ff;
-            border: 1px solid #555555;
-        }
-        body.dark-mode .form-control:focus {
-            background-color: #2d2d30;
-            color: #e0d9ff;
-            border-color: violet;
-            box-shadow: 0 0 0 0.2rem rgba(138, 43, 226, 0.25);
-        }
-        body.dark-mode label {
-            color: #e0d9ff;
-        }
-        body.dark-mode .alert {
-            background-color: #4b0082;
-            color: #e0d9ff;
-            border: none;
-        }
-        body.dark-mode input,
-        body.dark-mode select,
-        body.dark-mode textarea {
-          background-color: #1e1e1e;
-          color: #e0d9ff;
-          border: 1px solid #555;
-        }
-        body.dark-mode input::placeholder,
-        body.dark-mode textarea::placeholder {
-          color: #aaa;
-        }
-    </style>
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    <link rel="stylesheet" href="{% static 'global.css'%}">
 </head>
+
 <body>
 
-    <nav class="navbar navbar-expand-lg navbar-dark">
+    <nav class="navbar navbar-dark p-0">
         <div class="container">
-            <a class="navbar-brand fw-bold" href="{% url 'dashboard' %}">🏋️ Fitness Analyzer</a>
-            <div>
-                {% if user.is_authenticated %}
-                    <a class="nav-link d-inline" href="{% url 'reset_data' %}">Reset Data</a>
-                    <a class="nav-link d-inline" href="{% url 'logout' %}">Logout</a>
-                {% else %}
-                    <a class="nav-link d-inline" href="{% url 'login' %}">Login</a>
-                    <a class="nav-link d-inline" href="{% url 'register' %}">Register</a>
-                {% endif %}
-            <!-- Dark Mode Toggle -->
-                <label class="switch mb-0">
+            <a class="navbar-logo" href="{% url 'dashboard' %}">🏋️ Fitness Analyzer</a>
+            <div class="navlinks">
+                <!-- Dark Mode Toggle -->
+                <label class="switch mb-0 w-auto">
                     <input type="checkbox" id="darkModeToggle">
-                    <span class="slider round"></span>
-                    <br>Mode
+                    <svg xmlns="http://www.w3.org/2000/svg" class="toggleIcon"
+                        viewBox="0 0 512 512"><!--!Font Awesome Free v7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
+                        <path fill="currentColor"
+                            d="M239.3 48.7c-107.1 8.5-191.3 98.1-191.3 207.3 0 114.9 93.1 208 208 208 33.3 0 64.7-7.8 92.6-21.7-103.4-23.4-180.6-115.8-180.6-226.3 0-65.8 27.4-125.1 71.3-167.3zM0 256c0-141.4 114.6-256 256-256 19.4 0 38.4 2.2 56.7 6.3 9.9 2.2 17.3 10.5 18.5 20.5s-4 19.8-13.1 24.4c-60.6 30.2-102.1 92.7-102.1 164.8 0 101.6 82.4 184 184 184 5 0 9.9-.2 14.8-.6 10.1-.8 19.6 4.8 23.8 14.1s2 20.1-5.3 27.1C387.3 484.8 324.8 512 256 512 114.6 512 0 397.4 0 256z" />
+                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="toggleIconHover"
+                        viewBox="0 0 512 512"><!--!Font Awesome Free v7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
+                        <path fill="currentColor"
+                            d="M256 0C114.6 0 0 114.6 0 256S114.6 512 256 512c68.8 0 131.3-27.2 177.3-71.4 7.3-7 9.4-17.9 5.3-27.1s-13.7-14.9-23.8-14.1c-4.9 .4-9.8 .6-14.8 .6-101.6 0-184-82.4-184-184 0-72.1 41.5-134.6 102.1-164.8 9.1-4.5 14.3-14.3 13.1-24.4S322.6 8.5 312.7 6.3C294.4 2.2 275.4 0 256 0z" />
+                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="toggleIconDark" viewBox="0 0 50 50">
+                        <path fill="currentColor"
+                            d="M 24.90625 3.96875 C 24.863281 3.976563 24.820313 3.988281 24.78125 4 C 24.316406 4.105469 23.988281 4.523438 24 5 L 24 11 C 23.996094 11.359375 24.183594 11.695313 24.496094 11.878906 C 24.808594 12.058594 25.191406 12.058594 25.503906 11.878906 C 25.816406 11.695313 26.003906 11.359375 26 11 L 26 5 C 26.011719 4.710938 25.894531 4.433594 25.6875 4.238281 C 25.476563 4.039063 25.191406 3.941406 24.90625 3.96875 Z M 10.65625 9.84375 C 10.28125 9.910156 9.980469 10.183594 9.875 10.546875 C 9.769531 10.914063 9.878906 11.304688 10.15625 11.5625 L 14.40625 15.8125 C 14.648438 16.109375 15.035156 16.246094 15.410156 16.160156 C 15.78125 16.074219 16.074219 15.78125 16.160156 15.410156 C 16.246094 15.035156 16.109375 14.648438 15.8125 14.40625 L 11.5625 10.15625 C 11.355469 9.933594 11.054688 9.820313 10.75 9.84375 C 10.71875 9.84375 10.6875 9.84375 10.65625 9.84375 Z M 39.03125 9.84375 C 38.804688 9.875 38.59375 9.988281 38.4375 10.15625 L 34.1875 14.40625 C 33.890625 14.648438 33.753906 15.035156 33.839844 15.410156 C 33.925781 15.78125 34.21875 16.074219 34.589844 16.160156 C 34.964844 16.246094 35.351563 16.109375 35.59375 15.8125 L 39.84375 11.5625 C 40.15625 11.265625 40.246094 10.800781 40.0625 10.410156 C 39.875 10.015625 39.460938 9.789063 39.03125 9.84375 Z M 24.90625 15 C 24.875 15.007813 24.84375 15.019531 24.8125 15.03125 C 24.75 15.035156 24.6875 15.046875 24.625 15.0625 C 24.613281 15.074219 24.605469 15.082031 24.59375 15.09375 C 19.289063 15.320313 15 19.640625 15 25 C 15 30.503906 19.496094 35 25 35 C 30.503906 35 35 30.503906 35 25 C 35 19.660156 30.746094 15.355469 25.46875 15.09375 C 25.433594 15.09375 25.410156 15.0625 25.375 15.0625 C 25.273438 15.023438 25.167969 15.003906 25.0625 15 C 25.042969 15 25.019531 15 25 15 C 24.96875 15 24.9375 15 24.90625 15 Z M 24.9375 17 C 24.957031 17 24.980469 17 25 17 C 25.03125 17 25.0625 17 25.09375 17 C 29.46875 17.050781 33 20.613281 33 25 C 33 29.421875 29.421875 33 25 33 C 20.582031 33 17 29.421875 17 25 C 17 20.601563 20.546875 17.035156 24.9375 17 Z M 4.71875 24 C 4.167969 24.078125 3.78125 24.589844 3.859375 25.140625 C 3.9375 25.691406 4.449219 26.078125 5 26 L 11 26 C 11.359375 26.003906 11.695313 25.816406 11.878906 25.503906 C 12.058594 25.191406 12.058594 24.808594 11.878906 24.496094 C 11.695313 24.183594 11.359375 23.996094 11 24 L 5 24 C 4.96875 24 4.9375 24 4.90625 24 C 4.875 24 4.84375 24 4.8125 24 C 4.78125 24 4.75 24 4.71875 24 Z M 38.71875 24 C 38.167969 24.078125 37.78125 24.589844 37.859375 25.140625 C 37.9375 25.691406 38.449219 26.078125 39 26 L 45 26 C 45.359375 26.003906 45.695313 25.816406 45.878906 25.503906 C 46.058594 25.191406 46.058594 24.808594 45.878906 24.496094 C 45.695313 24.183594 45.359375 23.996094 45 24 L 39 24 C 38.96875 24 38.9375 24 38.90625 24 C 38.875 24 38.84375 24 38.8125 24 C 38.78125 24 38.75 24 38.71875 24 Z M 15 33.875 C 14.773438 33.90625 14.5625 34.019531 14.40625 34.1875 L 10.15625 38.4375 C 9.859375 38.679688 9.722656 39.066406 9.808594 39.441406 C 9.894531 39.8125 10.1875 40.105469 10.558594 40.191406 C 10.933594 40.277344 11.320313 40.140625 11.5625 39.84375 L 15.8125 35.59375 C 16.109375 35.308594 16.199219 34.867188 16.039063 34.488281 C 15.882813 34.109375 15.503906 33.867188 15.09375 33.875 C 15.0625 33.875 15.03125 33.875 15 33.875 Z M 34.6875 33.875 C 34.3125 33.941406 34.011719 34.214844 33.90625 34.578125 C 33.800781 34.945313 33.910156 35.335938 34.1875 35.59375 L 38.4375 39.84375 C 38.679688 40.140625 39.066406 40.277344 39.441406 40.191406 C 39.8125 40.105469 40.105469 39.8125 40.191406 39.441406 C 40.277344 39.066406 40.140625 38.679688 39.84375 38.4375 L 35.59375 34.1875 C 35.40625 33.988281 35.148438 33.878906 34.875 33.875 C 34.84375 33.875 34.8125 33.875 34.78125 33.875 C 34.75 33.875 34.71875 33.875 34.6875 33.875 Z M 24.90625 37.96875 C 24.863281 37.976563 24.820313 37.988281 24.78125 38 C 24.316406 38.105469 23.988281 38.523438 24 39 L 24 45 C 23.996094 45.359375 24.183594 45.695313 24.496094 45.878906 C 24.808594 46.058594 25.191406 46.058594 25.503906 45.878906 C 25.816406 45.695313 26.003906 45.359375 26 45 L 26 39 C 26.011719 38.710938 25.894531 38.433594 25.6875 38.238281 C 25.476563 38.039063 25.191406 37.941406 24.90625 37.96875 Z">
+                        </path>
+                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="toggleIconDarkHover" viewBox="0 0 50 50">
+                        <path fill="currentColor"
+                            d="M 24.90625 3.96875 C 24.863281 3.976563 24.820313 3.988281 24.78125 4 C 24.316406 4.105469 23.988281 4.523438 24 5 L 24 11 C 23.996094 11.359375 24.183594 11.695313 24.496094 11.878906 C 24.808594 12.058594 25.191406 12.058594 25.503906 11.878906 C 25.816406 11.695313 26.003906 11.359375 26 11 L 26 5 C 26.011719 4.710938 25.894531 4.433594 25.6875 4.238281 C 25.476563 4.039063 25.191406 3.941406 24.90625 3.96875 Z M 10.65625 9.84375 C 10.28125 9.910156 9.980469 10.183594 9.875 10.546875 C 9.769531 10.914063 9.878906 11.304688 10.15625 11.5625 L 14.40625 15.8125 C 14.648438 16.109375 15.035156 16.246094 15.410156 16.160156 C 15.78125 16.074219 16.074219 15.78125 16.160156 15.410156 C 16.246094 15.035156 16.109375 14.648438 15.8125 14.40625 L 11.5625 10.15625 C 11.355469 9.933594 11.054688 9.820313 10.75 9.84375 C 10.71875 9.84375 10.6875 9.84375 10.65625 9.84375 Z M 39.03125 9.84375 C 38.804688 9.875 38.59375 9.988281 38.4375 10.15625 L 34.1875 14.40625 C 33.890625 14.648438 33.753906 15.035156 33.839844 15.410156 C 33.925781 15.78125 34.21875 16.074219 34.589844 16.160156 C 34.964844 16.246094 35.351563 16.109375 35.59375 15.8125 L 39.84375 11.5625 C 40.15625 11.265625 40.246094 10.800781 40.0625 10.410156 C 39.875 10.015625 39.460938 9.789063 39.03125 9.84375 Z M 25 15 C 19.484375 15 15 19.484375 15 25 C 15 30.515625 19.484375 35 25 35 C 30.515625 35 35 30.515625 35 25 C 35 19.484375 30.515625 15 25 15 Z M 4.71875 24 C 4.167969 24.078125 3.78125 24.589844 3.859375 25.140625 C 3.9375 25.691406 4.449219 26.078125 5 26 L 11 26 C 11.359375 26.003906 11.695313 25.816406 11.878906 25.503906 C 12.058594 25.191406 12.058594 24.808594 11.878906 24.496094 C 11.695313 24.183594 11.359375 23.996094 11 24 L 5 24 C 4.96875 24 4.9375 24 4.90625 24 C 4.875 24 4.84375 24 4.8125 24 C 4.78125 24 4.75 24 4.71875 24 Z M 38.71875 24 C 38.167969 24.078125 37.78125 24.589844 37.859375 25.140625 C 37.9375 25.691406 38.449219 26.078125 39 26 L 45 26 C 45.359375 26.003906 45.695313 25.816406 45.878906 25.503906 C 46.058594 25.191406 46.058594 24.808594 45.878906 24.496094 C 45.695313 24.183594 45.359375 23.996094 45 24 L 39 24 C 38.96875 24 38.9375 24 38.90625 24 C 38.875 24 38.84375 24 38.8125 24 C 38.78125 24 38.75 24 38.71875 24 Z M 15 33.875 C 14.773438 33.90625 14.5625 34.019531 14.40625 34.1875 L 10.15625 38.4375 C 9.859375 38.679688 9.722656 39.066406 9.808594 39.441406 C 9.894531 39.8125 10.1875 40.105469 10.558594 40.191406 C 10.933594 40.277344 11.320313 40.140625 11.5625 39.84375 L 15.8125 35.59375 C 16.109375 35.308594 16.199219 34.867188 16.039063 34.488281 C 15.882813 34.109375 15.503906 33.867188 15.09375 33.875 C 15.0625 33.875 15.03125 33.875 15 33.875 Z M 34.6875 33.875 C 34.3125 33.941406 34.011719 34.214844 33.90625 34.578125 C 33.800781 34.945313 33.910156 35.335938 34.1875 35.59375 L 38.4375 39.84375 C 38.679688 40.140625 39.066406 40.277344 39.441406 40.191406 C 39.8125 40.105469 40.105469 39.8125 40.191406 39.441406 C 40.277344 39.066406 40.140625 38.679688 39.84375 38.4375 L 35.59375 34.1875 C 35.40625 33.988281 35.148438 33.878906 34.875 33.875 C 34.84375 33.875 34.8125 33.875 34.78125 33.875 C 34.75 33.875 34.71875 33.875 34.6875 33.875 Z M 24.90625 37.96875 C 24.863281 37.976563 24.820313 37.988281 24.78125 38 C 24.316406 38.105469 23.988281 38.523438 24 39 L 24 45 C 23.996094 45.359375 24.183594 45.695313 24.496094 45.878906 C 24.808594 46.058594 25.191406 46.058594 25.503906 45.878906 C 25.816406 45.695313 26.003906 45.359375 26 45 L 26 39 C 26.011719 38.710938 25.894531 38.433594 25.6875 38.238281 C 25.476563 38.039063 25.191406 37.941406 24.90625 37.96875 Z">
+                        </path>
+                    </svg>
                 </label>
+                {% if user.is_authenticated %}
+                <!-- <a class="nav-link d-inline" href="{% url 'reset_data' %}">Reset Data</a> -->
+                <a class="nav-link d-inline" href="{% url 'logout' %}">Logout</a>
+                {% else %}
+                <a class="nav-link d-inline" href="{% url 'login' %}">Login</a>
+                <a class="nav-link d-inline" href="{% url 'register' %}">Register</a>
+                {% endif %}
             </div>
         </div>
     </nav>
 
-    <div class="container">
+    <div class="content min-dvh-100">
         {% block content %}{% endblock %}
     </div>
 
-<script>
-const toggle = document.getElementById('darkModeToggle');
+    <script>
+        const toggle = document.getElementById('darkModeToggle');
 
-// Only attempt chart swapping if charts exist
-const bmiChart = document.getElementById('bmiChart');
-const weightChart = document.getElementById('weightChart');
+        // Only attempt chart swapping if charts exist
+        const bmiChart = document.getElementById('bmiChart');
+        const weightChart = document.getElementById('weightChart');
 
-let bmiLight, bmiDark, weightLight, weightDark;
+        let bmiLight, bmiDark, weightLight, weightDark;
 
-if (bmiChart && weightChart) {
-    bmiLight = "{{ bmi_chart_light|default:''|escapejs }}";
-    bmiDark = "{{ bmi_chart_dark|default:''|escapejs }}";
-    weightLight = "{{ weight_chart_light|default:''|escapejs }}";
-    weightDark = "{{ weight_chart_dark|default:''|escapejs }}";
-}
-
-// Dark mode initial check
-if(localStorage.getItem('darkMode') === 'enabled'){
-    document.body.classList.add('dark-mode');
-    if(toggle) toggle.checked = true;
-
-    if(bmiChart && weightChart) {
-        bmiChart.src = "data:image/png;base64," + bmiDark;
-        weightChart.src = "data:image/png;base64," + weightDark;
-    }
-}
-
-// Toggle listener
-if(toggle) {
-    toggle.addEventListener('change', () => {
-        const isDark = document.body.classList.toggle('dark-mode');
-        localStorage.setItem('darkMode', isDark ? 'enabled' : 'disabled');
-
-        if(bmiChart && weightChart) {
-            bmiChart.src = "data:image/png;base64," + (isDark ? bmiDark : bmiLight);
-            weightChart.src = "data:image/png;base64," + (isDark ? weightDark : weightLight);
+        if (bmiChart && weightChart) {
+            bmiLight = "{{ bmi_chart_light|default:''|escapejs }}";
+            bmiDark = "{{ bmi_chart_dark|default:''|escapejs }}";
+            weightLight = "{{ weight_chart_light|default:''|escapejs }}";
+            weightDark = "{{ weight_chart_dark|default:''|escapejs }}";
         }
-    });
-}
-</script>
+
+        // Dark mode initial check
+        if (localStorage.getItem('darkMode') === 'enabled') {
+            document.body.classList.add('dark-mode');
+            if (toggle) toggle.checked = true;
+
+            if (bmiChart && weightChart) {
+                bmiChart.src = "data:image/png;base64," + bmiDark;
+                weightChart.src = "data:image/png;base64," + weightDark;
+            }
+        }
+
+        // Toggle listener
+        if (toggle) {
+            toggle.addEventListener('change', () => {
+                const isDark = document.body.classList.toggle('dark-mode');
+                localStorage.setItem('darkMode', isDark ? 'enabled' : 'disabled');
+
+                if (bmiChart && weightChart) {
+                    bmiChart.src = "data:image/png;base64," + (isDark ? bmiDark : bmiLight);
+                    weightChart.src = "data:image/png;base64," + (isDark ? weightDark : weightLight);
+                }
+            });
+        }
+    </script>
 
 </body>
+
 </html>

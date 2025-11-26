@@ -1,0 +1,100 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+{% block title %}Add Fitness Data - Fitness Analyzer{% endblock %}
+
+{% block content %}
+
+<div class="row">
+
+    {% include 'dashboard/components/sidebar.html' %}
+
+    <div class="col-md-9 p-4">
+        <h1>Add Fitness Data</h1>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <div class="card p-4">
+            <form method="post" novalidate>
+                {% csrf_token %}
+
+                <!-- Weight Field -->
+                <div class="mb-3">
+                    <label for="weight" class="form-label">Weight (kg)</label>
+                    <input 
+                        type="number" 
+                        class="form-control" 
+                        id="weight" 
+                        name="weight" 
+                        placeholder="Weight (kg)" 
+                        step="0.1"
+                        required>
+                    {% if form.weight.errors %}
+                        <div class="text-danger mt-1">{{ form.weight.errors }}</div>
+                    {% endif %}
+                </div>
+
+                <!-- Height Field -->
+                <div class="mb-3">
+                    <label for="height" class="form-label">Height (m)</label>
+                    <input 
+                        type="number" 
+                        class="form-control" 
+                        id="height" 
+                        name="height" 
+                        placeholder="Height (m)" 
+                        step="0.01"
+                        required>
+                    {% if form.height.errors %}
+                        <div class="text-danger mt-1">{{ form.height.errors }}</div>
+                    {% endif %}
+                </div>
+
+                <!-- Steps Field -->
+                <div class="mb-3">
+                    <label for="steps" class="form-label">Steps</label>
+                    <input 
+                        type="number" 
+                        class="form-control" 
+                        id="steps" 
+                        name="steps" 
+                        placeholder="Steps"
+                        required>
+                    {% if form.steps.errors %}
+                        <div class="text-danger mt-1">{{ form.steps.errors }}</div>
+                    {% endif %}
+                </div>
+
+                <!-- Calories Burned Field -->
+                <div class="mb-3">
+                    <label for="calories_burned" class="form-label">Calories Burned</label>
+                    <input 
+                        type="number" 
+                        class="form-control" 
+                        id="calories_burned" 
+                        name="calories_burned" 
+                        placeholder="Calories Burned"
+                        required>
+                    {% if form.calories_burned.errors %}
+                        <div class="text-danger mt-1">{{ form.calories_burned.errors }}</div>
+                    {% endif %}
+                </div>
+
+                <!-- Submit Buttons -->
+                <div class="d-grid gap-2 d-sm-flex justify-content-sm-start">
+                    <button type="submit" class="btn btn-primary">Save Record</button>
+                    <a href="{% url 'dashboard' %}" class="btn btn-secondary">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}
